@@ -23,4 +23,10 @@ public partial class ShoppingManagementView : ContentPage
     {
         (BindingContext as ShoppingManagementViewModel).RefreshUX();
     }
+
+    public void GoToCheckoutClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ShoppingManagementViewModel).Checkout();
+        Shell.Current.GoToAsync($"//CheckoutPage");
+    }
 }
