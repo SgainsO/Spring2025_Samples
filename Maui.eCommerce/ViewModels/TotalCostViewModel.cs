@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Library.eCommerce.Models;
 using Library.eCommerce.Services;
 
 namespace Maui.eCommerce.ViewModels
@@ -15,14 +17,40 @@ namespace Maui.eCommerce.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         public double CheckoutCost
         {
             get {
-                return Math.Round(__svc.CheckoutPrice + (__svc.CheckoutPrice * .07), 2);
+                var rounded = Math.Round(__svc.CheckoutPrice + (__svc.CheckoutPrice * .07), 2);
+                return rounded;
                 }
             set 
-            { 
+            {
                 __svc.CheckoutPrice = value;
+
+            }
+        }
+
+        public ObservableCollection<Item?> ShoppingCart
+        {
+            get
+            {
+                int totalCost = 0;
+                foreach (var item in __svc.CartItems)
+                {
+                    totalCost += item?.Price ?? 0;
+                }
+                CheckoutCost = totalCost;
+                NotifyPropertyChanged(nameof(CheckoutCost));
+
+                var toRet =  new ObservableCollection<Item?>(__svc.CartItems
+                    .Where(i => i?.Quantity > 0)
+                    );
+    //            __svc.CartItems.Clear();
+
+                
+
+                return toRet;
             }
         }
 
@@ -39,6 +67,12 @@ namespace Maui.eCommerce.ViewModels
         public void RefreshUI()
         {
             NotifyPropertyChanged(nameof(CheckoutCost));
+            NotifyPropertyChanged(nameof(ShoppingCart));
+        }
+        public void ClearOnLeave()
+        {
+            __svc.CartItems.Clear();
+            CheckoutCost = 0;
         }
     }
 }

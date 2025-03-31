@@ -12,12 +12,18 @@ public partial class CheckoutView : ContentPage
 	{
 		InitializeComponent();
         BindingContext = new TotalCostViewModel();
-
+    //    (BindingContext as TotalCostViewModel).setDefaults();
     }
 
     public void GoHome(object sender, EventArgs e)
     {
         (BindingContext as TotalCostViewModel).RefreshUI();
         Shell.Current.GoToAsync($"//MainPage");        
+    }
+
+    public void CheckOutClicked(object sender, EventArgs e)
+    {
+        (BindingContext as TotalCostViewModel).RefreshUI();
+        (BindingContext as TotalCostViewModel).ClearOnLeave();
     }
 }

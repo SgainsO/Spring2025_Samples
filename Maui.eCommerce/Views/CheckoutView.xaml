@@ -4,6 +4,7 @@
              x:Class="Maui.eCommerce.Views.CheckoutView"
              Title="CheckoutView">
     <VerticalStackLayout>
+		<Button Text="CheckOut" Clicked="CheckOutClicked"/>
         <Label 
             Text="You Spent: $"
             VerticalOptions="Center" 
@@ -11,6 +12,32 @@
         <Label Text="{Binding CheckoutCost}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0"
+                ItemsSource="{Binding ShoppingCart}"
+                >
+                <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>-->
+            </ListView>
+        </Grid>
+        </Grid>
+
+
         <Button Text="Go Home" Clicked="GoHome"/>
     </VerticalStackLayout>
 </ContentPage>

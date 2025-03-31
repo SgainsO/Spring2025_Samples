@@ -87,19 +87,24 @@ namespace Maui.eCommerce.ViewModels
         //Do stuff on list, then the next page will be a readout
         public void Checkout()  
         {
-            int totalCost = 0;
-            foreach (var item in ShoppingCart)
-            {
-                totalCost += item?.Price ?? 0;
-            }
-            _cartSvc.ClearList();
+            /*    int totalCost = 0;
+                foreach (var item in ShoppingCart)
+                {
+                    totalCost += item?.Price ?? 0;
+                }
+        //        _cartSvc.ClearList();
 
-            if (totalCost > 0)
-            {
-                NotifyPropertyChanged(nameof(ShoppingCart));
-            }
-            _cartSvc.CheckoutPrice = totalCost;
-            NotifyPropertyChanged(nameof(_cartSvc.CheckoutPrice));
+                if (totalCost > 0)
+                {
+                    NotifyPropertyChanged(nameof(ShoppingCart));
+                }
+                _cartSvc.CheckoutPrice = totalCost;
+                NotifyPropertyChanged(nameof(_cartSvc.CheckoutPrice));
+            */
+        //    _cartSvc.ClearList();
+            NotifyPropertyChanged(nameof(ShoppingCart));
+
         }
+
     }
 }
