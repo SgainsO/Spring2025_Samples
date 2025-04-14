@@ -21,7 +21,7 @@ namespace Maui.eCommerce.ViewModels
         public double CheckoutCost
         {
             get {
-                var rounded = Math.Round(__svc.CheckoutPrice + (__svc.CheckoutPrice * .07), 2);
+                var rounded = Math.Round(__svc.CheckoutPrice + (__svc.CheckoutPrice * __svc.taxRate), 2);
                 return rounded;
                 }
             set 
