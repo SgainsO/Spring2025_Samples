@@ -9,18 +9,16 @@ namespace Maui.eCommerce.ViewModels
 {
     public class TaxPageViewModel
     {
-        public string tax_input { get; set; }
+        public string ? tax_input { get; set; }
         public ShoppingCartService svc = ShoppingCartService.Current;
 
         public void set_tax_input()
         {
+            if (tax_input == null) { return; }
             svc.taxRate = double.Parse(tax_input);
         }
     
     }
-
-
-
 
 
 }

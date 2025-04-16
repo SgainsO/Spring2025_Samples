@@ -29,4 +29,5 @@ public partial class ShoppingManagementView : ContentPage
         Shell.Current.GoToAsync($"//CheckoutPage");
         (BindingContext as ShoppingManagementViewModel).Checkout();
     }
+
 }

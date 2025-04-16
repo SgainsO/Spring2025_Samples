@@ -15,9 +15,13 @@ namespace Library.eCommerce.Services
         {
             Products = new List<Item?>
             {
-                new Item{ Product = new ProductDTO{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 1, Price = 5 },
-                new Item{ Product = new ProductDTO{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 2,Price = 50 },
-                new Item{ Product = new ProductDTO{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 3, Price = 500 }
+                new Item{ Product = new ProductDTO{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 3, Price = 5 },
+                new Item{ Product = new ProductDTO{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 6,Price = 50 },
+                new Item{ Product = new ProductDTO{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 12, Price = 500 },
+                new Item{ Product = new ProductDTO{Id = 4, Name ="Audoct" }, Id=4 , Quantity = 3, Price = 10000 },
+                new Item{ Product = new ProductDTO{Id = 5, Name ="Zudoct" }, Id=5 , Quantity = 3, Price = 1 }
+
+
             };
         }
 

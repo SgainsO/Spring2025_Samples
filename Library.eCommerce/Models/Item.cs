@@ -18,7 +18,7 @@ namespace Library.eCommerce.Models
 
         public int Price { get; set; } 
 
-        public ICommand? AddCommand { get; set; }
+
 
         public override string ToString()
         {
@@ -32,18 +32,32 @@ namespace Library.eCommerce.Models
             }
         }
 
+                public int AddCertainAmount(int amount)
+        {
+            for(int i = 0; i < amount; i++)
+            {
+                if (ShoppingCartService.Current.AddOrUpdate(this) == null)
+                {
+                    return 0;
+                }
+            }
+            return 1;
+        }
+
         public Item()
         {
             Product = new ProductDTO();
             Quantity = 0;
 
-            AddCommand = new Command(DoAdd);
+
         }
 
-        private void DoAdd()
+        public void DoAdd()
         {
             ShoppingCartService.Current.AddOrUpdate(this);
         }
+
+
 
         public Item(Item i)
         {
@@ -52,7 +66,8 @@ namespace Library.eCommerce.Models
             Id = i.Id;
             Price = i.Price;
 
-            AddCommand = new Command(DoAdd);
         }
+
+        
     }
 }
