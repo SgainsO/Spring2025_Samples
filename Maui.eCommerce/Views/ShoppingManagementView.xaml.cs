@@ -29,5 +29,10 @@ public partial class ShoppingManagementView : ContentPage
         Shell.Current.GoToAsync($"//CheckoutPage");
         (BindingContext as ShoppingManagementViewModel).Checkout();
     }
+    public void ChangeFilterClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ShoppingManagementViewModel).changeFilterMode();
+        (BindingContext as ShoppingManagementViewModel).RefreshUX();
+    }
 
 }

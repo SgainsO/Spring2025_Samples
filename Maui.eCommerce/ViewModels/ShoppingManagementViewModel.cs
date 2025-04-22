@@ -20,6 +20,7 @@ namespace Maui.eCommerce.ViewModels
        private ShoppingCartService _cartSvc = ShoppingCartService.Current;
        public ItemViewModel? SelectedItem { get; set; }
        public ItemViewModel? SelectedCartItem { get; set; }
+       public string mode = "Name";
 
 
 
@@ -27,9 +28,17 @@ namespace Maui.eCommerce.ViewModels
         {
             get
             {
-                return new ObservableCollection<ItemViewModel?>(_invSvc.Products
-                    .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m))
-                    );
+                var filteredList = _invSvc.Products
+                    .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m));
+                if (mode == "Name")
+                {
+                    filteredList = filteredList?.OrderBy(I => I?.Model?.Product?.Name);
+                }
+                else
+                {
+                    filteredList = filteredList.OrderBy(I => I?.Model?.Price);
+                }
+                return new ObservableCollection<ItemViewModel?>(filteredList);
             }
         }
 
@@ -38,9 +47,17 @@ namespace Maui.eCommerce.ViewModels
         {
             get
             {
-                return new ObservableCollection<ItemViewModel?>(_cartSvc.CartItems
-                    .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m))
-                    );
+                var filteredList = _cartSvc.CartItems
+                    .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m));
+                if (mode == "Name")
+                {
+                    filteredList = filteredList?.OrderBy(I => I?.Model?.Product?.Name);
+                }
+                else
+                {
+                    filteredList = filteredList.OrderBy(I => I?.Model?.Price);
+                }
+                return new ObservableCollection<ItemViewModel?>(filteredList);
             }
         }
 
@@ -112,6 +129,18 @@ namespace Maui.eCommerce.ViewModels
         //    _cartSvc.ClearList();
             NotifyPropertyChanged(nameof(ShoppingCart));
 
+        }
+
+        public void changeFilterMode()
+        {
+            if (mode == "Name")
+            {
+                mode = "Price";
+            }
+            else
+            {
+                mode = "Name";
+            }
         }
 
     }

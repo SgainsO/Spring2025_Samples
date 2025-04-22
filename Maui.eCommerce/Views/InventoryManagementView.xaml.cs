@@ -47,4 +47,5 @@ public partial class InventoryManagementView : ContentPage
         (BindingContext as InventoryManagementViewModel)?.SortList();
     }
 
+
 }

@@ -45,7 +45,7 @@
       Clicked="DeleteClicked"
       />
         <Button
-            Text="Filtering By {Binding Mode}"
+            Text="Change Filter Mode"
             Clicked="ChangeFilterClicked"
             />
         <Button

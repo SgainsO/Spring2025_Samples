@@ -89,6 +89,7 @@
             <Button Grid.Row="1" Text="-" Clicked="RemoveFromCartClicked"/>
         </Grid>
     </Grid>
+        <Button Text="Change Filter Mode" Clicked="ChangeFilterClicked" />
         <Button Text="Checkout" Clicked="GoToCheckoutClicked" />
     </VerticalStackLayout>
 </ContentPage>
