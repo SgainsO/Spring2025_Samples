@@ -18,11 +18,12 @@ namespace Maui.eCommerce.ViewModels
     {
        private ProductServiceProxy _invSvc = ProductServiceProxy.Current;
        private ShoppingCartService _cartSvc = ShoppingCartService.Current;
+
+       private ShopListService _shopSvc = ShopListService.Current;
+
        public ItemViewModel? SelectedItem { get; set; }
        public ItemViewModel? SelectedCartItem { get; set; }
        public string mode = "Name";
-
-
 
         public ObservableCollection<ItemViewModel?> Inventory
         {
@@ -47,7 +48,7 @@ namespace Maui.eCommerce.ViewModels
         {
             get
             {
-                var filteredList = _cartSvc.CartItems
+                var filteredList = _shopSvc.ReturnCurrentList().CartItems
                     .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m));
                 if (mode == "Name")
                 {
@@ -83,7 +84,7 @@ namespace Maui.eCommerce.ViewModels
             if (SelectedItem != null)
             {
                 var shouldRefresh = SelectedItem.Model.Quantity >= 1;
-                var updatedItem = _cartSvc.AddOrUpdate(SelectedItem.Model);
+                var updatedItem = _shopSvc.ReturnCurrentList().AddOrUpdate(SelectedItem.Model);
 
                 if(updatedItem != null && shouldRefresh) {
                     NotifyPropertyChanged(nameof(Inventory));
@@ -99,7 +100,7 @@ namespace Maui.eCommerce.ViewModels
             if (SelectedCartItem != null) {
                 var shouldRefresh = SelectedCartItem.Model.Quantity >= 1;
                 
-                var updatedItem = _cartSvc.ReturnItem(SelectedCartItem.Model);
+                var updatedItem = _shopSvc.ReturnCurrentList().ReturnItem(SelectedCartItem.Model);
 
                 if (updatedItem != null && shouldRefresh)
                 {

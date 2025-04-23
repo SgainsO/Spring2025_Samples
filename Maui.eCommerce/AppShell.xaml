@@ -33,5 +33,9 @@
         Title="Shop"
         ContentTemplate="{DataTemplate views:CheckoutView}"
         Route="CheckoutPage"    />
+    <ShellContent
+        Title="Shop"
+        ContentTemplate="{DataTemplate views:ShoppingLists}"
+        Route="ShopLists"    />
 
 </Shell>

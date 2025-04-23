@@ -91,5 +91,6 @@
     </Grid>
         <Button Text="Change Filter Mode" Clicked="ChangeFilterClicked" />
         <Button Text="Checkout" Clicked="GoToCheckoutClicked" />
+        <Button Text="Change Shopping Cart" Clicked="GoToChangeClicked" />
     </VerticalStackLayout>
 </ContentPage>
