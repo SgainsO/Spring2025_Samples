@@ -1,10 +1,12 @@
+using Library.eCommerce.Models;
 using Maui.eCommerce.ViewModels;
 
 namespace Maui.eCommerce.Views;
 
+
 public partial class ShoppingManagementView : ContentPage
 {
-	public ShoppingManagementView()
+    public ShoppingManagementView()
 	{
 		InitializeComponent();
 		BindingContext = new ShoppingManagementViewModel();
@@ -26,7 +28,19 @@ public partial class ShoppingManagementView : ContentPage
 
     public void GoToCheckoutClicked(object sender, EventArgs e)
     {
-        Shell.Current.GoToAsync($"//CheckoutPage");
+        Shell.Current.GoToAsync("//CheckoutPage");
         (BindingContext as ShoppingManagementViewModel).Checkout();
     }
+    public void ChangeFilterClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ShoppingManagementViewModel).changeFilterMode();
+        (BindingContext as ShoppingManagementViewModel).RefreshUX();
+    }
+
+    public void GoToChangeClicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync($"//ShopLists");
+    }
+
+
 }

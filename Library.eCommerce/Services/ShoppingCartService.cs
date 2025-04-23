@@ -1,4 +1,5 @@
-﻿using Library.eCommerce.Models;
+﻿using System.ComponentModel;
+using Library.eCommerce.Models;
 
 namespace Library.eCommerce.Services
 {
@@ -7,6 +8,8 @@ namespace Library.eCommerce.Services
         private ProductServiceProxy _prodSvc = ProductServiceProxy.Current;
         private List<Item> items;
         public double CheckoutPrice;
+
+        public double taxRate { get; set; }
         public List<Item> CartItems
         {
             get
@@ -14,22 +17,29 @@ namespace Library.eCommerce.Services
                 return items;
             }
         }
-        public static ShoppingCartService Current {  
+        public static ShoppingCartService Current {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new ShoppingCartService();
                 }
 
                 return instance;
-            } 
+            }
         }
         private static ShoppingCartService? instance;
-        private ShoppingCartService() { 
+
+        private ShoppingCartService() {
             items = new List<Item>();
+            taxRate = 7;
         }
 
+        public static ShoppingCartService? AddNewShoppingCart()
+        {
+            ShoppingCartService shoppingCartService = new ShoppingCartService();
+            return shoppingCartService;
+        }
         public void ClearList() { items = new List<Item>(); }
         //Sets the list to an empty, new, list
 

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+
+
 
 namespace Maui.eCommerce.ViewModels
 {
@@ -15,26 +18,47 @@ namespace Maui.eCommerce.ViewModels
     {
        private ProductServiceProxy _invSvc = ProductServiceProxy.Current;
        private ShoppingCartService _cartSvc = ShoppingCartService.Current;
-       public Item? SelectedItem { get; set; }
-       public Item? SelectedCartItem { get; set; }
 
-        public ObservableCollection<Item?> Inventory
+       private ShopListService _shopSvc = ShopListService.Current;
+
+       public ItemViewModel? SelectedItem { get; set; }
+       public ItemViewModel? SelectedCartItem { get; set; }
+       public string mode = "Name";
+
+        public ObservableCollection<ItemViewModel?> Inventory
         {
             get
             {
-                return new ObservableCollection<Item?>(_invSvc.Products
-                    .Where(i => i?.Quantity > 0)
-                    );
+                var filteredList = _invSvc.Products
+                    .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m));
+                if (mode == "Name")
+                {
+                    filteredList = filteredList?.OrderBy(I => I?.Model?.Product?.Name);
+                }
+                else
+                {
+                    filteredList = filteredList.OrderBy(I => I?.Model?.Price);
+                }
+                return new ObservableCollection<ItemViewModel?>(filteredList);
             }
         }
 
-        public ObservableCollection<Item?> ShoppingCart
+
+        public ObservableCollection<ItemViewModel?> ShoppingCart
         {
             get
             {
-                return new ObservableCollection<Item?>(_cartSvc.CartItems
-                    .Where(i => i?.Quantity > 0)
-                    );
+                var filteredList = _shopSvc.ReturnCurrentList().CartItems
+                    .Where(i => i?.Quantity > 0).Select(m => new ItemViewModel(m));
+                if (mode == "Name")
+                {
+                    filteredList = filteredList?.OrderBy(I => I?.Model?.Product?.Name);
+                }
+                else
+                {
+                    filteredList = filteredList.OrderBy(I => I?.Model?.Price);
+                }
+                return new ObservableCollection<ItemViewModel?>(filteredList);
             }
         }
 
@@ -59,8 +83,8 @@ namespace Maui.eCommerce.ViewModels
         {
             if (SelectedItem != null)
             {
-                var shouldRefresh = SelectedItem.Quantity >= 1;
-                var updatedItem = _cartSvc.AddOrUpdate(SelectedItem);
+                var shouldRefresh = SelectedItem.Model.Quantity >= 1;
+                var updatedItem = _shopSvc.ReturnCurrentList().AddOrUpdate(SelectedItem.Model);
 
                 if(updatedItem != null && shouldRefresh) {
                     NotifyPropertyChanged(nameof(Inventory));
@@ -70,12 +94,13 @@ namespace Maui.eCommerce.ViewModels
             }
         }
 
+
         public void ReturnItem()
         {
             if (SelectedCartItem != null) {
-                var shouldRefresh = SelectedCartItem.Quantity >= 1;
+                var shouldRefresh = SelectedCartItem.Model.Quantity >= 1;
                 
-                var updatedItem = _cartSvc.ReturnItem(SelectedCartItem);
+                var updatedItem = _shopSvc.ReturnCurrentList().ReturnItem(SelectedCartItem.Model);
 
                 if (updatedItem != null && shouldRefresh)
                 {
@@ -84,6 +109,7 @@ namespace Maui.eCommerce.ViewModels
                 }
             }
         }
+
         //Do stuff on list, then the next page will be a readout
         public void Checkout()  
         {
@@ -104,6 +130,18 @@ namespace Maui.eCommerce.ViewModels
         //    _cartSvc.ClearList();
             NotifyPropertyChanged(nameof(ShoppingCart));
 
+        }
+
+        public void changeFilterMode()
+        {
+            if (mode == "Name")
+            {
+                mode = "Price";
+            }
+            else
+            {
+                mode = "Name";
+            }
         }
 
     }

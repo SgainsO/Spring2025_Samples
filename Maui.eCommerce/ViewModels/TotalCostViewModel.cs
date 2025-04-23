@@ -12,16 +12,18 @@ using Library.eCommerce.Services;
 namespace Maui.eCommerce.ViewModels
 {
     public class TotalCostViewModel : INotifyPropertyChanged
-    {
-        private ShoppingCartService __svc = ShoppingCartService.Current;
+    { 
+        private ShopListService _shopsv = ShopListService.Current;
+    
+        private ShoppingCartService __svc;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
 
         public double CheckoutCost
         {
             get {
-                var rounded = Math.Round(__svc.CheckoutPrice + (__svc.CheckoutPrice * .07), 2);
+                __svc = _shopsv.ReturnCurrentList();
+                var rounded = Math.Round(__svc.CheckoutPrice + ((__svc.CheckoutPrice * __svc.taxRate) /100), 2);
                 return rounded;
                 }
             set 
@@ -35,6 +37,7 @@ namespace Maui.eCommerce.ViewModels
         {
             get
             {
+                __svc = _shopsv.ReturnCurrentList();
                 int totalCost = 0;
                 foreach (var item in __svc.CartItems)
                 {
